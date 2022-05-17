@@ -1,4 +1,5 @@
-﻿using GameReaderCommon;
+﻿using FlagEventEmitter.service;
+using GameReaderCommon;
 using SimHub.Plugins;
 using System;
 using System.Windows.Media;
@@ -35,9 +36,6 @@ namespace FlagEventEmitter
         /// <param name="data"></param>
         public void DataUpdate(PluginManager pluginManager, ref GameData data)
         {
-            // Define the value of our property (declared in init)
-            pluginManager.SetPropertyValue("CurrentDateTime", this.GetType(), DateTime.Now);
-
             if (data.GameRunning)
             {
                 StatusDataBase oldData = data.OldData;
@@ -84,9 +82,9 @@ namespace FlagEventEmitter
         {
             SimHub.Logging.Current.Info("Starting plugin FlagEventEmitter");
             // Load settings
-            settings = this.ReadCommonSettings("GeneralSettings", () => new DataPluginDemoSettings("DEVICE_NAME","GOVEE_API_KEY"));
+            settings = this.ReadCommonSettings("GeneralSettings", () => new DataPluginDemoSettings("DEVICE_NAME", "GOVEE_API_KEY", client.DeviceType.GOVEE));
             SimHub.Logging.Current.Info("Device to be managed: " + settings.deviceName);
-            flagService.init(settings.deviceName, settings.goveeApiKey);
+            flagService.init(settings);
         }
     }
 }

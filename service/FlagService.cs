@@ -1,28 +1,20 @@
-﻿using FlagEventEmitter;
+﻿using FlagEventEmitter.client;
+using FlagEventEmitter.service.data;
 using GameReaderCommon;
-using Newtonsoft.Json;
 using System;
 
-namespace FlagEventEmitter
+namespace FlagEventEmitter.service
 {
     public class FlagService
     {
-        private GoveeClient goveeClient;
-        private Device device;
-        private string goveeApiKey;
+        private DeviceClient deviceClient;
+        private ClientFactory clientFactory;
 
-        public void init(string deviceName, string goveeApiKey)
+        public void init(DataPluginDemoSettings settings)
         {
-            this.goveeApiKey = goveeApiKey; 
-            goveeClient = new GoveeClient(this.goveeApiKey);
-            device = goveeClient.findDeviceByName(deviceName);
-            if(device != null)
-            {
-                goveeClient.changeLedStripColor(device, new RgbValue(255, 255, 255));
-            } else
-            {
-                SimHub.Logging.Current.Warn("Device not found!!");
-            }
+            clientFactory = new ClientFactory(settings);
+            deviceClient = clientFactory.generateClient();
+            deviceClient.init(settings);
         }
 
         public  void sendFlagRequestIfNeeded(StatusDataBase oldData, StatusDataBase newData)
@@ -32,7 +24,7 @@ namespace FlagEventEmitter
             bool greenFlagChanged = newData.Flag_Green != oldData.Flag_Green;
             bool orangeFlagChanged = newData.Flag_Orange != oldData.Flag_Orange;
 
-            if ((blueFlagChanged || yellowFlagChanged || greenFlagChanged || orangeFlagChanged) && device != null)
+            if (blueFlagChanged || yellowFlagChanged || greenFlagChanged || orangeFlagChanged)
             {
                 bool blueFlagState = Convert.ToBoolean(newData.Flag_Blue);
                 bool yellowFlagState = Convert.ToBoolean(newData.Flag_Yellow);
@@ -42,26 +34,26 @@ namespace FlagEventEmitter
                 if(!blueFlagState && !yellowFlagState && !greenFlagState && !orangeFlagState)
                 {
                     SimHub.Logging.Current.Info("Turning off Flag!!");
-                    goveeClient.changeLedStripColor(device, new RgbValue(255, 255, 255));
+                    deviceClient.changeDeviceColor(new RgbValue(255, 255, 255));
                 } 
                 else
                 {
                     SimHub.Logging.Current.Info("Flag detected!!");
                     if (blueFlagState)
                     {
-                        goveeClient.changeLedStripColor(device, new RgbValue(0, 0, 255));
+                        deviceClient.changeDeviceColor(new RgbValue(0, 0, 255));
                     } 
                     else if(yellowFlagState)
                     {
-                        goveeClient.changeLedStripColor(device, new RgbValue(255, 255, 0));
+                        deviceClient.changeDeviceColor(new RgbValue(255, 255, 0));
                     }
                     else if(greenFlagState)
                     {
-                        goveeClient.changeLedStripColor(device, new RgbValue(0, 255, 0));
+                        deviceClient.changeDeviceColor(new RgbValue(0, 255, 0));
                     }
                     else
                     {
-                        goveeClient.changeLedStripColor(device, new RgbValue(255, 165, 0));
+                        deviceClient.changeDeviceColor(new RgbValue(255, 165, 0));
                     }
                 }
             }
@@ -69,11 +61,7 @@ namespace FlagEventEmitter
 
         public void finish()
         {
-            if(device != null)
-            {
-                SimHub.Logging.Current.Info("Turning of device: " + device.deviceName);
-                goveeClient.switchOff(device);
-            }
+            deviceClient.switchOff();
         }
     }
 }

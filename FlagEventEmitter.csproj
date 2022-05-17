@@ -33,21 +33,25 @@
     <WarningLevel>3</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="client\ClientFactory.cs" />
+    <Compile Include="client\DeviceClient.cs" />
+    <Compile Include="client\DeviceType.cs" />
     <Compile Include="DataPluginDemo.cs" />
     <Compile Include="DataPluginDemoSettings.cs" />
-    <Compile Include="govee\Data\GoveeRgbComand.cs" />
-    <Compile Include="govee\Data\GoveeSwithcComand.cs" />
+    <Compile Include="client\govee\Data\GoveeRgbComand.cs" />
+    <Compile Include="client\govee\Data\GoveeSwithcComand.cs" />
+    <Compile Include="service\data\RgbValue.cs" />
     <Compile Include="service\FlagService.cs" />
-    <Compile Include="govee\GoveeClient.cs" />
-    <Compile Include="govee\Data\GoveeRgbLedStripColorRequest.cs" />
-    <Compile Include="govee\Data\GoveeComand.cs" />
-    <Compile Include="govee\Data\RgbValue.cs" />
-    <Compile Include="govee\Data\Data.cs" />
-    <Compile Include="govee\Data\GoveeApiDevicesResponse.cs" />
-    <Compile Include="govee\Data\ColorTem.cs" />
-    <Compile Include="govee\Data\Properties.cs" />
-    <Compile Include="govee\Data\Range.cs" />
-    <Compile Include="govee\Data\Device.cs" />
+    <Compile Include="client\govee\GoveeClient.cs" />
+    <Compile Include="client\govee\Data\GoveeRgbLedStripColorRequest.cs" />
+    <Compile Include="client\govee\Data\GoveeComand.cs" />
+    <Compile Include="client\govee\Data\RgbValue.cs" />
+    <Compile Include="client\govee\Data\Data.cs" />
+    <Compile Include="client\govee\Data\GoveeApiDevicesResponse.cs" />
+    <Compile Include="client\govee\Data\ColorTem.cs" />
+    <Compile Include="client\govee\Data\Properties.cs" />
+    <Compile Include="client\govee\Data\Range.cs" />
+    <Compile Include="client\govee\Data\Device.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SettingsControlDemo.xaml.cs">
       <DependentUpon>SettingsControlDemo.xaml</DependentUpon>
@@ -66,6 +70,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

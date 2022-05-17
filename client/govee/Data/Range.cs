@@ -1,6 +1,6 @@
 ﻿
 
-namespace FlagEventEmitter
+namespace FlagEventEmitter.client.govee.data
 {
     public class Range
     {

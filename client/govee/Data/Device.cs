@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace FlagEventEmitter
+namespace FlagEventEmitter.client.govee.data
 {
     public class Device
     {
